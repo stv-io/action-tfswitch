@@ -1,6 +1,8 @@
-name: tfswitch'
+name: tfswitch
 
-description: 'Setup tfswitch to install a specific version of terraform'
+author: Stephen Attard
+
+description: Setup tfswitch to install a specific version of terraform
 
 runs:
   using: composite
@@ -32,3 +34,7 @@ runs:
         echo "Unlinking default version of terraform .."
         unlink /usr/local/bin/terraform
         echo "Done!"
+
+branding:
+  color: blue
+  icon: box
