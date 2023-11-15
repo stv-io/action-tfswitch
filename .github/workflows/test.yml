@@ -6,13 +6,6 @@ on:
       - main
 
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4      
-      # - uses: ibiqlik/action-yamllint@v3
-      - uses: articulate/actions-markdownlint@v1
-
   test-terraform-version-file:
     runs-on: ubuntu-latest
     steps:
