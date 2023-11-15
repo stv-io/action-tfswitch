@@ -1,0 +1,64 @@
+name: testing tfswitch action
+
+on:
+  push:
+    branches:
+
+jobs:
+  test-terraform-version-file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: run tfswitch for .terraform-version file
+        run: |
+          echo "1.6.3" > .terraform-version
+          tfswitch
+          terraform --version
+
+  test-command-line-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: run tfswitch with the version on the command line
+        run: |
+          tfswitch 1.6.2
+          terraform --version
+
+  test-env-var-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: run tfswitch with the version in an env var
+        run: |
+          export TF_VERSION=1.6.1
+          tfswitch 1.6.2
+          terraform --version
+                
+  test-install-latest-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: run tfswitch with the version in an env var
+        run: |
+          tfswitch -u
+          terraform --version
+                
+  test-terraform-tf-file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: run tfswitch with the version in an env var
+        run: |
+          cat << EOF > versions.tf
+          terraform {
+            required_version = ">= 0.12.9"
+          }        
+          EOF
+          tfswitch
+          terraform --version
+        

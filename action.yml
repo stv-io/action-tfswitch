@@ -6,6 +6,7 @@ inputs:
   version:
     description: 'The tfswitch version'
     required: false
+    default: "0.13.1308"
 
 runs:
   using: 'composite'
@@ -16,17 +17,17 @@ runs:
       run: |
         echo "::error title=⛔ error hint::This action is only supported on Linux Runners"
         exit 1
-    - name: Download and install tfswitch
+    - name: Install tfswitch
       shell: bash
-      id: download
+      id: install
       # env:
       #   VERSION: ${{ inputs.version }}
-      #   SHA256SUM: ${{ inputs.sha256sum }}
+        # SHA256SUM: ${{ inputs.sha256sum }}
       run: |
         curl -sLo install.sh https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh 
         chmod 755 install.sh
         mkdir -p $HOME/.bin
-        ./install.sh -b $HOME/.bin
+        ./install.sh ${{ inputs.version }} -b $HOME/.bin
         $HOME/.bin/tfswitch --version
         export PATH=$PATH:$HOME/.bin
         tfswitch --version
