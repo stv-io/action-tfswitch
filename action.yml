@@ -23,6 +23,9 @@ runs:
       #   VERSION: ${{ inputs.version }}
       #   SHA256SUM: ${{ inputs.sha256sum }}
       run: |
-        curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
-        tfswitch --version
-        
+        curl -sLo install.sh https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh 
+        chmod 755 install.sh
+        mkdir -p $HOME/.bin
+        ./install.sh -b $HOME/.bin
+        $HOME/.bin/tfswitch --version
+        export PATH=$PATH:$HOME/.bin
