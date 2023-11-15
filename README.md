@@ -38,7 +38,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Setup tfswitch
-      uses: stv-io/action-tfswitch@main
+      uses: stv-io/action-tfswitch@v1
     - name: Install
       run: |
         tfswitch
@@ -55,7 +55,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Setup tfswitch
-      uses: stv-io/action-tfswitch@main
+      uses: stv-io/action-tfswitch@v1
     - name: Install
       env:
         TF_VERSION: 1.6.2
@@ -74,7 +74,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Setup tfswitch
-      uses: stv-io/action-tfswitch@main
+      uses: stv-io/action-tfswitch@v1
     - name: Install
       run: |
         tfswitch 1.6.4
