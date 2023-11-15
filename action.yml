@@ -9,7 +9,7 @@ inputs:
     default: "0.13.1308"
 
 runs:
-  using: 'composite'
+  using: composite
   steps:
     - name: Check Runner OS
       if: ${{ runner.os != 'Linux' }}
@@ -21,11 +21,21 @@ runs:
       shell: bash
       id: install
       run: |
+        echo "Downloading install script .."
         curl -sLo install.sh https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh 
+        echo "Configuring install script to be executable .."
+        chmod 755 install.sh
+        echo "Creating $HOME/.bin for tfswitch binary .."
         mkdir -p $HOME/.bin
-        bash -x ./install.sh ${{ inputs.version }} -b $HOME/.bin
+        echo "Installing tfswitch verion ${{ inputs.version }} .."
+        ./install.sh ${{ inputs.version }} -b $HOME/.bin
+        echo "Running tfswitch from $HOME/.bin .."
         $HOME/.bin/tfswitch --version
         export PATH=$PATH:$HOME/.bin
+        echo "Running tfswitch assuming PATH is set .."
         tfswitch --version
+        echo "Exporting PATH to GITHUB_PATH .."
         echo $HOME/.bin >> $GITHUB_PATH
+        echo "Unlinking default version of terraform .."
         unlink /usr/local/bin/terraform
+        echo "Done!"
