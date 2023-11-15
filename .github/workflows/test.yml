@@ -2,7 +2,6 @@ name: testing tfswitch action
 
 on:
   push:
-    branches:
 
 jobs:
   test-terraform-version-file:
