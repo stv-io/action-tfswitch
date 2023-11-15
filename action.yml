@@ -27,8 +27,8 @@ runs:
         chmod 755 install.sh
         echo "Creating $HOME/.bin for tfswitch binary .."
         mkdir -p $HOME/.bin
-        echo "Installing tfswitch verion ${{ inputs.version }} .."
-        ./install.sh ${{ inputs.version }} -b $HOME/.bin
+        echo "Installing tfswitch version ${{ inputs.version }} .."
+        ./install.sh -b $HOME/.bin
         echo "Running tfswitch from $HOME/.bin .."
         $HOME/.bin/tfswitch --version
         export PATH=$PATH:$HOME/.bin
