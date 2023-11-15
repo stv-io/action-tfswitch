@@ -1,0 +1,40 @@
+name: tfswitch
+
+author: Stephen Attard
+
+description: Setup tfswitch to install a specific version of terraform
+
+runs:
+  using: composite
+  steps:
+    - name: Check Runner OS
+      if: ${{ runner.os != 'Linux' }}
+      shell: bash
+      run: |
+        echo "::error title=⛔ error hint::This action is only supported on Linux Runners"
+        exit 1
+    - name: Install tfswitch
+      shell: bash
+      run: |
+        echo "Downloading install script .."
+        curl -sLo install.sh https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh 
+        echo "Configuring install script to be executable .."
+        chmod 755 install.sh
+        echo "Creating $HOME/.bin for tfswitch binary .."
+        mkdir -p $HOME/.bin
+        echo "Installing tfswitch version .."
+        ./install.sh -b $HOME/.bin
+        echo "Running tfswitch from $HOME/.bin .."
+        $HOME/.bin/tfswitch --version
+        export PATH=$PATH:$HOME/.bin
+        echo "Running tfswitch assuming PATH is set .."
+        tfswitch --version
+        echo "Exporting PATH to GITHUB_PATH .."
+        echo $HOME/.bin >> $GITHUB_PATH
+        echo "Unlinking default version of terraform .."
+        unlink /usr/local/bin/terraform
+        echo "Done!"
+
+branding:
+  color: blue
+  icon: box
