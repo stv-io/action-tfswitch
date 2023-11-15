@@ -29,3 +29,5 @@ runs:
         ./install.sh -b $HOME/.bin
         $HOME/.bin/tfswitch --version
         export PATH=$PATH:$HOME/.bin
+        tfswitch --version
+        echo $HOME/.bin >> $GITHUB_PATH
