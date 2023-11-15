@@ -4,6 +4,12 @@ on:
   push:
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: ibiqlik/action-yamllint@v3  
+      - uses: articulate/actions-markdownlint@v1      
+
   test-terraform-version-file:
     runs-on: ubuntu-latest
     steps:
@@ -31,8 +37,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./
       - name: run tfswitch with the version in an env var
+        env:
+          TF_VERSION: 1.6.2
         run: |
-          export TF_VERSION=1.6.1
           tfswitch 1.6.2
           terraform --version
                 

@@ -1,27 +1,33 @@
 # action-tfswitch
 
-A github action to run tfswitch as a composite action
+A github action to run [tfswitch](https://tfswitch.warrensbox.com/) as a [composite action](https://github.com/orgs/community/discussions/36861)
 
 ## Usage
 
-To use tfswtich github action, configure a YAML workflow file, e.g.
+To use tfswitch github action, configure a YAML workflow file, e.g.
 `.github/workflows/tfswitch.yml`, with the following:
 
 ```yaml
-name: Run terraform
+name: Install terraform via tfswitch
+
 on:
   - pull_request
+
 jobs:
   terraform:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
-
-    - name: Render terraform docs inside the README.md and push changes back to PR branch
+    - name: Setup tfswitch
       uses: stv-io/action-tfswitch@main
-    - name: Render terraform docs inside the README.md and push changes back to PR branch
+    - name: Install
       run: |
-        export TF_VERSION=1.6.1
-        tfswitch 1.6.2
+        tfswitch 1.6.4
         terraform --version
+        terraform init
+        ...
 ```
+
+## Credit
+
+<https://github.com/warrensbox/terraform-switcher>

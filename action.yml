@@ -1,4 +1,4 @@
-name: 'tfswitch'
+name: tfswitch'
 
 description: 'Setup tfswitch to install a specific version of terraform'
 
@@ -13,7 +13,6 @@ runs:
         exit 1
     - name: Install tfswitch
       shell: bash
-      id: install
       run: |
         echo "Downloading install script .."
         curl -sLo install.sh https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh 
