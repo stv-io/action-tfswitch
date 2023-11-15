@@ -2,12 +2,6 @@ name: 'tfswitch'
 
 description: 'Setup tfswitch to install a specific version of terraform'
 
-inputs:
-  version:
-    description: 'The tfswitch version'
-    required: false
-    default: "0.13.1308"
-
 runs:
   using: composite
   steps:
@@ -27,7 +21,7 @@ runs:
         chmod 755 install.sh
         echo "Creating $HOME/.bin for tfswitch binary .."
         mkdir -p $HOME/.bin
-        echo "Installing tfswitch version ${{ inputs.version }} .."
+        echo "Installing tfswitch version .."
         ./install.sh -b $HOME/.bin
         echo "Running tfswitch from $HOME/.bin .."
         $HOME/.bin/tfswitch --version
