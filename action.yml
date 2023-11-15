@@ -1,0 +1,28 @@
+name: 'tfswitch'
+
+description: 'Setup tfswitch to install a specific version of terraform'
+
+inputs:
+  version:
+    description: 'The tfswitch version'
+    required: false
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Check Runner OS
+      if: ${{ runner.os != 'Linux' }}
+      shell: bash
+      run: |
+        echo "::error title=⛔ error hint::This action is only supported on Linux Runners"
+        exit 1
+    - name: Download and install tfswitch
+      shell: bash
+      id: download
+      # env:
+      #   VERSION: ${{ inputs.version }}
+      #   SHA256SUM: ${{ inputs.sha256sum }}
+      run: |
+        curl -L https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh | bash
+        tfswitch --version
+        
