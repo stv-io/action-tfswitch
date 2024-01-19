@@ -35,6 +35,7 @@ runs:
         echo "terraform_version=$(terraform --version -json | jq -r .terraform_version)" >> "$GITHUB_OUTPUT"
         echo "Debug - dump github ouput"
         echo $GITHUB_OUTPUT
+        cat $GITHUB_OUTPUT
         echo "Unlinking default version of terraform .."
         unlink /usr/local/bin/terraform
         echo "Done!"
