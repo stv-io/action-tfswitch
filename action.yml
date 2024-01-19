@@ -4,6 +4,11 @@ author: Stephen Attard
 
 description: Setup tfswitch to install a specific version of terraform
 
+outputs:
+  terraform_version:
+    description: "The installed version of terraform"
+    value: ${{ steps.tfswitch-install.outputs.terraform_version }}
+
 runs:
   using: composite
   steps:
@@ -15,6 +20,7 @@ runs:
         exit 1
     - name: Install tfswitch
       shell: bash
+      id: tfswitch-install
       run: |
         echo "Downloading install script .."
         curl -sLo install.sh https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh
@@ -33,11 +39,10 @@ runs:
         echo $HOME/.bin >> $GITHUB_PATH
         echo "Exporting terraform version to GITHUB_OUTPUT as terraform_version.."
         echo "terraform_version=$(terraform --version -json | jq -r .terraform_version)" >> "$GITHUB_OUTPUT"
-        echo "Debug - dump github ouput"
-        echo $GITHUB_OUTPUT
-        cat $GITHUB_OUTPUT
-        echo "Unlinking default version of terraform .."
-        unlink /usr/local/bin/terraform
+        if [ -e "/usr/local/bin/terraform" ]; then
+            echo "Unlinking default version of terraform .."
+            unlink /usr/local/bin/terraform
+        fi
         echo "Done!"
 
 branding:
