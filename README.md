@@ -105,6 +105,12 @@ jobs:
         echo "Terraform ${{steps.tfswitch-install.outputs.terraform_version }} installed to $(which terraform) .."
 ```
 
+## Outputs
+
+| **Output**        | **Type** | **Description**                    |
+|-------------------|----------|------------------------------------|
+| terraform_version | string   | The version of terraform installed |
+
 ## Note
 
 This action unlinks the default installed terraform which is available in the [runner](https://github.com/actions/runner-images/tree/main).
