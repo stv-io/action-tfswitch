@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+env: 
+  ACTIONS_STEP_DEBUG: true
+
 jobs:
   # test-terraform-version-file:
   #   runs-on: ubuntu-latest
