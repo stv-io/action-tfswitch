@@ -5,67 +5,64 @@ on:
     branches:
       - main
 
-env: 
-  ACTIONS_STEP_DEBUG: true
-
 jobs:
-  # test-terraform-version-file:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: ./
-  #     - name: test with the version in a .terraform-version file
-  #       run: |
-  #         echo "1.6.3" > .terraform-version
-  #         tfswitch
-  #         terraform --version
+  test-terraform-version-file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: test with the version in a .terraform-version file
+        run: |
+          echo "1.6.3" > .terraform-version
+          tfswitch
+          terraform --version
 
-  # test-command-line-version:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: ./
-  #     - name: test with the version on the command line
-  #       run: |
-  #         tfswitch 1.6.2
-  #         terraform --version
+  test-command-line-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: test with the version on the command line
+        run: |
+          tfswitch 1.6.2
+          terraform --version
 
-  # test-env-var-version:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: ./
-  #     - name: test with the version in an env var
-  #       env:
-  #         TF_VERSION: 1.6.2
-  #       run: |
-  #         tfswitch 1.6.2
-  #         terraform --version
+  test-env-var-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: test with the version in an env var
+        env:
+          TF_VERSION: 1.6.2
+        run: |
+          tfswitch 1.6.2
+          terraform --version
 
-  # test-install-latest-version:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: ./
-  #     - name: test with the version in an env var
-  #       run: |
-  #         tfswitch -u
-  #         terraform --version
+  test-install-latest-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: test with the version in an env var
+        run: |
+          tfswitch -u
+          terraform --version
 
-  # test-terraform-tf-file:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - uses: ./
-  #     - name: test with the version in an env var
-  #       run: |
-  #         cat << EOF > versions.tf
-  #         terraform {
-  #           required_version = "~> 1"
-  #         }
-  #         EOF
-  #         tfswitch
-  #         terraform --version
+  test-terraform-tf-file:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+      - name: test with the version in an env var
+        run: |
+          cat << EOF > versions.tf
+          terraform {
+            required_version = "~> 1"
+          }
+          EOF
+          tfswitch
+          terraform --version
 
   test-export-version-as-output:
     runs-on: ubuntu-latest
@@ -80,11 +77,9 @@ jobs:
       run: |
         tfswitch 1.6.6
         terraform --version
-        echo "Output of terraform_version${{ steps.tfswitch-install.outputs.terraform_version }}"
         if [[ -n "${{ steps.tfswitch-install.outputs.terraform_version }}" ]]; then
-          echo "Output variable is set"
           echo "Terraform ${{ steps.tfswitch-install.outputs.terraform_version }} installed to $(which terraform) .."
         else
-          echo "Output variable is empty"
+          echo "Error - expected action output variable is empty"
           exit 1
         fi
