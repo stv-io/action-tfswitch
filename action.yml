@@ -17,7 +17,7 @@ runs:
       shell: bash
       run: |
         echo "Downloading install script .."
-        curl -sLo install.sh https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh 
+        curl -sLo install.sh https://raw.githubusercontent.com/warrensbox/terraform-switcher/release/install.sh
         echo "Configuring install script to be executable .."
         chmod 755 install.sh
         echo "Creating $HOME/.bin for tfswitch binary .."
@@ -31,6 +31,8 @@ runs:
         tfswitch --version
         echo "Exporting PATH to GITHUB_PATH .."
         echo $HOME/.bin >> $GITHUB_PATH
+        echo "Exporting terraform version to GITHUB_OUTPUT as terraform_version.."
+        echo "terraform_version=$(terraform --version -json | jq -r .terraform_version)" >> "$GITHUB_OUTPUT"
         echo "Unlinking default version of terraform .."
         unlink /usr/local/bin/terraform
         echo "Done!"

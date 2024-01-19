@@ -63,3 +63,18 @@ jobs:
           EOF
           tfswitch
           terraform --version
+
+  export-version-as-output:
+    outputs:
+      terraform_version: ${{ steps.tfswitch-install.outputs.terraform_version }}
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup tfswitch
+      uses: ./
+      id: tfswitch-install
+    - name: Install
+      run: |
+        tfswitch 1.7.0
+        terraform --version
+        echo "Terraform ${{steps.tfswitch-install.outputs.terraform_version }} installed to $(which terraform) .."
