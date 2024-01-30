@@ -82,6 +82,35 @@ jobs:
         ...
 ```
 
+### Use specified version in terraform setup
+
+```yaml
+jobs:
+  export-version-as-output:
+    outputs:
+      terraform_version: ${{ steps.tfswitch-install.outputs.terraform_version }}  
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup tfswitch
+      uses: stv-io/action-tfswitch@v1
+    - name: Install
+      id: tfswitch-install
+      run: |
+        tfswitch 1.6.4
+        terraform --version
+        ...
+    - name: display version and path
+      run: |
+        echo "Terraform ${{steps.tfswitch-install.outputs.terraform_version }} installed to $(which terraform) .."
+```
+
+## Outputs
+
+| **Output**        | **Type** | **Description**                    |
+|-------------------|----------|------------------------------------|
+| terraform_version | string   | The version of terraform installed |
+
 ## Note
 
 This action unlinks the default installed terraform which is available in the [runner](https://github.com/actions/runner-images/tree/main).

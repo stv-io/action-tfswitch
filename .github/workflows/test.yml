@@ -63,3 +63,23 @@ jobs:
           EOF
           tfswitch
           terraform --version
+
+  test-export-version-as-output:
+    runs-on: ubuntu-latest
+    outputs:
+      terraform_version: ${{ steps.tfswitch-install.outputs.terraform_version }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup tfswitch
+      uses: ./
+      id: tfswitch-install
+    - name: Install
+      run: |
+        tfswitch 1.6.6
+        terraform --version
+        if [[ -n "${{ steps.tfswitch-install.outputs.terraform_version }}" ]]; then
+          echo "Terraform ${{ steps.tfswitch-install.outputs.terraform_version }} installed to $(which terraform) .."
+        else
+          echo "Error - expected action output variable is empty"
+          exit 1
+        fi
